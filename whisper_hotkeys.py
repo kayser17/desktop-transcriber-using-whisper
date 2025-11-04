@@ -13,8 +13,48 @@ import pyperclip
 import keyboard  # global hotkeys
 from faster_whisper import WhisperModel
 
+# --- Indicador visual: mini-ventana "Grabando…" ---
+import threading
+try:
+    import tkinter as _tk
+    _rec_win = None
+
+    def show_recording_indicator():
+        """Muestra una ventanita pequeña '🎙️  Grabando…' arriba-izquierda."""
+        global _rec_win
+        if _rec_win is not None:
+            return
+        _rec_win = _tk.Tk()
+        _rec_win.overrideredirect(True)         # sin bordes
+        _rec_win.attributes("-topmost", True)   # siempre al frente
+        _rec_win.geometry("+20+40")             # posición en pantalla (x,y)
+        frame = _tk.Frame(_rec_win, bg="#202020")
+        frame.pack()
+        label = _tk.Label(frame, text=" Grabando…",
+                          bg="#202020", fg="white",
+                          padx=12, pady=8, font=("Segoe UI", 11, "bold"))
+        label.pack()
+        # loop de tkinter en un hilo para no bloquear tu script
+        threading.Thread(target=_rec_win.mainloop, daemon=True).start()
+
+    def hide_recording_indicator():
+        """Oculta la ventanita si está visible."""
+        global _rec_win
+        try:
+            if _rec_win is not None:
+                _rec_win.destroy()
+        except Exception:
+            pass
+        _rec_win = None
+
+except Exception:
+    # Fallback silencioso si Tk no está disponible
+    def show_recording_indicator(): pass
+    def hide_recording_indicator(): pass
+
+
 # ====== CONFIG ======
-LANG = "es"                     # "es" | "en" | None(autodetect)
+LANG = "es"                     
 MODEL_SIZE = os.getenv("WHISPER_SIZE", "medium")
 SAMPLE_RATE = 16000
 CHANNELS    = 1
@@ -66,7 +106,7 @@ class HotkeyRecorder:
             )
             self.stream.start()
             self.recording = True
-        print("🎙️ Grabando… (", HOTKEY_STOP, " para transcribir | ", HOTKEY_CANCEL, " para cancelar)")
+        print(" Grabando… (", HOTKEY_STOP, " para transcribir | ", HOTKEY_CANCEL, " para cancelar)")
 
         # Drain queue in background while recording
         threading.Thread(target=self._collector_loop, daemon=True).start()
@@ -125,9 +165,11 @@ def transcribe(audio_np):
 
 def on_start():
     rec.start()
+    show_recording_indicator()
 
 def on_stop():
     audio = rec.stop_and_get_audio()
+    hide_recording_indicator()
     if audio is None:
         print("No hay grabación activa.")
         return
@@ -144,9 +186,11 @@ def on_stop():
 
 def on_cancel():
     rec.cancel()
+    hide_recording_indicator()
 
 def on_quit():
     print("Saliendo…")
+    hide_recording_indicator()
     try:
         rec.cancel()
     except Exception:
