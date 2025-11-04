@@ -27,44 +27,40 @@ Two small utilities to record mic audio and transcribe with Faster-Whisper.
 > Note: even if your driver supports CUDA 12.9, CTranslate2 binaries typically look for **CUDA 12.4** runtime DLLs (e.g., `cublas64_12.dll`). That’s why we install **CUDA 12.4** alongside a modern driver.
 
 ## Install
-### 1) Clone the repo
+1. Clone the repo
 git clone https://github.com/<your-user>/<your-repo>.git
 cd <your-repo>
 
-### 2) Create the virtual environment (Python 3.12 recommended)
+2. Create the virtual environment (Python 3.12 recommended)
 py -3.12 -m venv .venv
 .\.venv\Scripts\activate
 
-### 3) Install dependencies
+3. Install dependencies
 pip install -r requirements.txt
 
 ## Prepare GPU
 
-### 1) Install CUDA Toolkit 12.4 from NVIDIA.
+1. Install CUDA Toolkit 12.4 from NVIDIA.
 
-### 2) Install cuDNN 9.14 and ensure DLLs exist, e.g.:
+2. Install cuDNN 9.14 and ensure DLLs exist, e.g.:
 
 C:\Program Files\NVIDIA\CUDNN\v9.14\bin\12.9\cudnn_ops64_9.dll
 
 The script prepends the needed CUDA/cuDNN folders at runtime (no need to edit global PATH).
 
 ## Usage
-'''powershell
+```powershell
 .\.venv\Scripts\activate
 python whisper_hotkeys.py
-'
-
-### 1) Place the cursor in the target app (VS Code, Word, WhatsApp Web, etc.).
-
-### 2) Press Ctrl+Alt+H and speak.
-
-### 3) Press Ctrl+Alt+J to stop + transcribe + paste the text.
-
-### 4) Ctrl+Alt+C cancels; Ctrl+Alt+Q quits.
+```
+ 1. Place the cursor in the target app (VS Code, Word, WhatsApp Web, etc.).
+ 2. Press Ctrl+Alt+H and speak.
+ 3. Press Ctrl+Alt+J to stop + transcribe + paste the text.
+ 4. Ctrl+Alt+C cancels; Ctrl+Alt+Q quits.
 
 To see that the mic is active, Windows shows a microphone access indicator near the system tray.
 
-Run in Background (Windows)
+## Run in Background (Windows)
 
 You can launch it automatically using **Task Scheduler**:
 
