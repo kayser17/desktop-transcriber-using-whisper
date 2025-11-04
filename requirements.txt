@@ -1,0 +1,6 @@
+faster-whisper
+ctranslate2
+sounddevice
+numpy
+pyperclip
+keyboard

@@ -3,7 +3,7 @@
 Two small utilities to record mic audio and transcribe with Faster-Whisper.
 
 ## Versions
-- `ptt_basic.py` — press **ENTER** to stop; result goes to clipboard (and optionally prints).
+- `ptt.py` — press **ENTER** to stop; result goes to clipboard (and optionally prints).
 - `whisper_hotkeys.py` — global hotkeys:
   - Ctrl+Alt+H: start
   - Ctrl+Alt+J: stop + transcribe + paste
