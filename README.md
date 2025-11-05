@@ -28,8 +28,6 @@ Two small utilities to record mic audio and transcribe with Faster-Whisper.
 
 ## Install
 1. Clone the repo
-git clone https://github.com/<your-user>/<your-repo>.git
-cd <your-repo>
 
 2. Create the virtual environment (Python 3.12 recommended)
 py -3.12 -m venv .venv
