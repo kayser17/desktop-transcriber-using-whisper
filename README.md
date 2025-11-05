@@ -20,6 +20,7 @@ Two small utilities to record mic audio and transcribe with Faster-Whisper.
 ## Project made with
 
 - **Windows 10 64-bit**
+- **NVIDIA 3070 RTX laptop**
 - **Python 3.12.x** 
 - **CUDA Toolkit 12.4**
 - **cuDNN 9.14** (e.g., folder `bin\12.9` present)
